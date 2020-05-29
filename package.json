@@ -1,0 +1,43 @@
+{
+  "name": "demo-cra",
+  "version": "1.0.31",
+  "private": true,
+  "dependencies": {
+    "@now/node": "^1.6.1",
+    "next-tinacms-github": "^0.1.1",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-tinacms-github": "^0.3.2",
+    "styled-components": "^5.1.1",
+    "tinacms": "^0.19.4",
+    "typescript": "^3.9.3"
+  },
+  "devDependencies": {
+    "@types/node": "12.6.8",
+    "react-scripts": "3.0.1"
+  },
+  "peerDependencies": {
+    "react": ">=16.8",
+    "react-dom": ">=16.8"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "eject": "react-scripts eject",
+    "dev": "react-scripts start"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

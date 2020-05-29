@@ -1,0 +1,10 @@
+<html>
+  <head>
+    <script>
+      var urlParams = new URLSearchParams(window.location.search)
+      var code = urlParams.get('code')
+
+      localStorage['github_auth_code'] = code
+    </script>
+  </head>
+</html>
