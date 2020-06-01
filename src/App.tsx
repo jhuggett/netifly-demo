@@ -20,13 +20,15 @@ import React, { useMemo } from 'react'
 import logo from './logo.svg'
 import './App.css'
 import content from './home.json'
-import { useForm, usePlugins } from 'tinacms'
+import { useForm, usePlugins, useCMS } from 'tinacms'
 import { useEditMode } from './components/EditMode'
-import { useGithubEditing } from 'react-tinacms-github'
+import { useGithubEditing, useGithubToolbarPlugins } from 'react-tinacms-github'
 
 const App: React.FC = () => {
   const { enterEditMode, exitEditMode } = useGithubEditing()
-  const [editMode, setEditMode] = useEditMode()
+  const [editMode] = useEditMode()
+  useGithubToolbarPlugins()
+  const cms = useCMS()
 
   const formConfig = {
     id: 'home-content',
@@ -69,8 +71,8 @@ const App: React.FC = () => {
         return content
       }
       let apiValues = {}
-      const res = await fetch('/api/test')
-      apiValues = await res.json()
+      const res = await cms.api.github.getFile('/src/home.json')
+      apiValues = JSON.parse(res)
       return {
         ...content,
         ...apiValues,
@@ -111,7 +113,7 @@ const App: React.FC = () => {
             padding: '0.5rem 1rem',
             fontSize: '1.2rem',
           }}
-          onClick={e => {
+          onClick={(e) => {
             e.preventDefault()
             if (editMode) exitEditMode()
             else enterEditMode()
