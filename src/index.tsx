@@ -23,11 +23,7 @@ import App from './App'
 import * as serviceWorker from './serviceWorker'
 import { TinaProvider, TinaCMS } from 'tinacms'
 import { EditModeProvider, useEditMode } from './components/EditMode'
-import {
-  useGithubEditing,
-  GithubClient,
-  TinacmsGithubProvider,
-} from 'react-tinacms-github'
+import { GithubClient, TinacmsGithubProvider } from 'react-tinacms-github'
 
 const CMSWrapper = ({ children }: { children: any }) => {
   const [editMode, setEditMode] = useEditMode()
@@ -37,7 +33,6 @@ const CMSWrapper = ({ children }: { children: any }) => {
   const exitEditMode = useCallback(() => {
     setEditMode(false)
   }, [setEditMode])
-  const [a10ed, setA10ed] = useState(false)
   const cms = useMemo(() => {
     return new TinaCMS({
       apis: {
@@ -45,18 +40,19 @@ const CMSWrapper = ({ children }: { children: any }) => {
           proxy: '/api/proxy-github',
           authCallbackRoute: '/api/create-github-access-token',
           clientId: 'a83089635b4f41c13502',
-          baseRepoFullName: 'test/test', // e.g: tinacms/tinacms.org,
+          baseRepoFullName: 'dwalkr/tina-demo-cra', // e.g: tinacms/tinacms.org,
+          authScope: 'repo',
         }),
       },
       sidebar: {
-        hidden: !editMode || !a10ed,
+        hidden: !editMode,
       },
       //@ts-ignore
       toolbar: {
-        hidden: !editMode || !a10ed,
+        hidden: !editMode,
       },
     })
-  }, [editMode, a10ed])
+  }, [editMode])
   return (
     <TinaProvider cms={cms}>
       <TinacmsGithubProvider
@@ -65,22 +61,6 @@ const CMSWrapper = ({ children }: { children: any }) => {
         exitEditMode={exitEditMode}
       >
         {children}
-        {editMode && !a10ed && (
-          <button
-            type="button"
-            style={{
-              marginTop: '2rem',
-              padding: '0.5rem 1rem',
-              fontSize: '1.2rem',
-            }}
-            onClick={e => {
-              e.preventDefault()
-              setA10ed(true)
-            }}
-          >
-            Click here to log in
-          </button>
-        )}
       </TinacmsGithubProvider>
     </TinaProvider>
   )
