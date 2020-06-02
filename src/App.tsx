@@ -40,7 +40,7 @@ const App: React.FC = () => {
   const formConfig = {
     id: 'home-content',
     label: 'Content',
-    onSubmit: commit,
+    onSubmit: (values: any) => commit(values),
     fields: [
       {
         name: 'title',
