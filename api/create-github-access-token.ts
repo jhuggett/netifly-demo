@@ -9,7 +9,6 @@ export const createAuthHandler = (clientId: string, secret: string) => (
   res: any
 ) => {
 
-  console.log("createAuthHandler");
   
   
 
