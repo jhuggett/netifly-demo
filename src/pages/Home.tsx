@@ -8,7 +8,7 @@ import logo from '../logo.svg'
 export const Home = () => {
   const [editMode] = useEditMode()
   const { loadData, commit } = useGithubFile({
-    path: 'src/home.json',
+    path: 'src/content/home.json',
     parse: JSON.parse,
     serialize: JSON.stringify,
   })
