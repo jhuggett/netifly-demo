@@ -24,6 +24,7 @@ import { useGithubEditing, useGithubToolbarPlugins } from 'react-tinacms-github'
 import { Switch, Route } from 'react-router-dom'
 import { Home } from './pages/Home'
 import { Page } from './pages/Page'
+import { Nav } from './components/Nav'
 
 const App: React.FC = () => {
   useGithubToolbarPlugins()
@@ -39,7 +40,7 @@ const App: React.FC = () => {
             <Home />
           </Route>
         </Switch>
-
+        <Nav />
         <button
           type="button"
           style={{
