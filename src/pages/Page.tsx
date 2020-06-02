@@ -40,7 +40,6 @@ export const Page = (props: any) => {
   useEffect(() => {
     import(`../content/${slug}.json`)
       .then((content) => {
-        console.log('setting content', content.default)
         setContent(content.default)
         setHasError(false)
       })
@@ -56,8 +55,6 @@ export const Page = (props: any) => {
 
     return content
   }, [formContent, content, editMode])
-
-  console.log({ formContent, content })
 
   if (hasError) {
     return <NotFound />
