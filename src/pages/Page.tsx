@@ -12,7 +12,6 @@ export const Page = (props: any) => {
         setHasError(false)
       })
       .catch((e) => {
-        console.log(e)
         setHasError(true)
       })
   }, [slug])
