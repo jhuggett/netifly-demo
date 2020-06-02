@@ -28,7 +28,6 @@ import { GithubClient } from './util/GithubClient'
 
 const CMSWrapper = ({ children }: { children: any }) => {
 
-  console.log({ process: process.env });
   
 
   const [editMode, setEditMode] = useEditMode()
