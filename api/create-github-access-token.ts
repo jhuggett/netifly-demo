@@ -1,6 +1,56 @@
-import { createAuthHandler } from 'next-tinacms-github'
+const ACCESS_TOKEN_KEY = 'github_access_token'
+
+const qs = require('qs')
+const axios = require('axios')
+import { serialize } from 'cookie'
+
+export const createAuthHandler = (clientId: string, secret: string) => (
+  req: any,
+  res: any
+) => {
+
+  console.log("createAuthHandler");
+  
+  console.log(clientId, secret);
+  
+
+  createAccessToken(clientId, secret, req.query.code, req.query.state).then(
+    (tokenResp: any) => {
+      const { access_token, error } = qs.parse(tokenResp.data)
+      if (error) {
+        res.status(400).json({ error })
+      } else {
+        res.setHeader(
+          'Set-Cookie',
+          serialize(ACCESS_TOKEN_KEY, access_token, {
+            path: '/',
+            httpOnly: true,
+          })
+        )
+        res.status(200).json({})
+      }
+    }
+  )
+}
+
+const createAccessToken = (
+  clientId: string,
+  clientSecret: string,
+  code: string,
+  state: string
+) => {
+  return axios.post(
+    `https://github.com/login/oauth/access_token`,
+    qs.stringify({
+      client_id: clientId,
+      client_secret: clientSecret,
+      code: code,
+      state,
+    })
+  )
+}
 
 export default createAuthHandler(
-  process.env.APP_CLIENT_ID || 'a83089635b4f41c13502',
-  process.env.APP_CLIENT_SECRET || '7ea661ce9271bb98d07ca573e85b4723b5f8a9b8'
+  process.env.REACT_APP_APP_CLIENT_ID || '',
+  process.env.APP_CLIENT_SECRET || ''
 )

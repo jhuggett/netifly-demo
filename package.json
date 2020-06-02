@@ -4,6 +4,8 @@
   "private": true,
   "dependencies": {
     "@now/node": "^1.6.1",
+    "cookie": "^0.4.1",
+    "dotenv": "^8.2.0",
     "next-tinacms-github": "^0.1.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
