@@ -23,7 +23,8 @@ import App from './App'
 import * as serviceWorker from './serviceWorker'
 import { TinaProvider, TinaCMS } from 'tinacms'
 import { EditModeProvider, useEditMode } from './components/EditMode'
-import { GithubClient, TinacmsGithubProvider } from 'react-tinacms-github'
+import { TinacmsGithubProvider } from 'react-tinacms-github'
+import { GithubClient } from './util/GithubClient'
 
 const CMSWrapper = ({ children }: { children: any }) => {
 

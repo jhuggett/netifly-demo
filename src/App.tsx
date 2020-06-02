@@ -16,24 +16,31 @@ limitations under the License.
 
 */
 
-import React, { useMemo } from 'react'
+import React, { useMemo, useState, useCallback, useEffect } from 'react'
 import logo from './logo.svg'
 import './App.css'
 import content from './home.json'
-import { useForm, usePlugins } from 'tinacms'
+import { useForm, usePlugins, useCMS } from 'tinacms'
 import { useEditMode } from './components/EditMode'
-import { useGithubEditing } from 'react-tinacms-github'
+import { useGithubEditing, useGithubToolbarPlugins } from 'react-tinacms-github'
+import { useGithubFile } from './util/useGithubFile'
 
 const App: React.FC = () => {
   const { enterEditMode, exitEditMode } = useGithubEditing()
-  const [editMode, setEditMode] = useEditMode()
+  const [editMode] = useEditMode()
+  useGithubToolbarPlugins()
+  const cms = useCMS()
+
+  const { loadData, commit } = useGithubFile({
+    path: 'src/home.json',
+    parse: JSON.parse,
+    serialize: JSON.stringify,
+  })
 
   const formConfig = {
     id: 'home-content',
     label: 'Content',
-    onSubmit: async () => {
-      alert('Saving...')
-    },
+    onSubmit: (values: any) => commit(values),
     fields: [
       {
         name: 'title',
@@ -64,18 +71,7 @@ const App: React.FC = () => {
         ],
       },
     ],
-    loadInitialValues: async () => {
-      if (!editMode) {
-        return content
-      }
-      let apiValues = {}
-      const res = await fetch('/api/test')
-      apiValues = await res.json()
-      return {
-        ...content,
-        ...apiValues,
-      }
-    },
+    loadInitialValues: editMode ? loadData : async () => content,
   }
 
   const [tinaContent, form] = useForm(formConfig)
@@ -111,7 +107,7 @@ const App: React.FC = () => {
             padding: '0.5rem 1rem',
             fontSize: '1.2rem',
           }}
-          onClick={e => {
+          onClick={(e) => {
             e.preventDefault()
             if (editMode) exitEditMode()
             else enterEditMode()

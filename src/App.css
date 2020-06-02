@@ -26,6 +26,10 @@ limitations under the License.
   pointer-events: none;
 }
 
+.App-logo[data-spin='counter-clockwise'] {
+  animation-name: App-logo-spin-ccw;
+}
+
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -47,5 +51,14 @@ limitations under the License.
   }
   to {
     transform: rotate(360deg);
+  }
+}
+
+@keyframes App-logo-spin-ccw {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
   }
 }
