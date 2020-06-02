@@ -11,7 +11,6 @@ export const createAuthHandler = (clientId: string, secret: string) => (
 
   console.log("createAuthHandler");
   
-  console.log(clientId, secret);
   
 
   createAccessToken(clientId, secret, req.query.code, req.query.state).then(
