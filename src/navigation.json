@@ -1,0 +1,10 @@
+[
+  {
+    "label": "Home",
+    "slug": "/"
+  },
+  {
+    "label": "About",
+    "slug": "/about"
+  }
+]

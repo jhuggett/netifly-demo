@@ -1,0 +1,21 @@
+.nav-wrapper {
+  position: fixed;
+  bottom: 0;
+  padding: 1rem;
+}
+.nav-wrapper-inner {
+  margin: 0 -1rem;
+}
+.main-nav {
+  display: flex;
+  justify-content: center;
+}
+
+.main-nav-item {
+  margin: 0 1rem;
+  color: #61dafb;
+}
+
+.main-nav-item.active {
+  color: #ffc107;
+}
