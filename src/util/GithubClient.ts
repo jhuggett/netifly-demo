@@ -24,13 +24,15 @@ export class GithubClient extends OldGithubClient {
   async getFile(path: string) {
     const encodedPath = encodeURIComponent(path)
     const currentBranch = await this.getBranch()
-    console.log({ currentBranch })
     let sha = currentBranch.object.sha
     const res = await this._req({
       url: `https://api.github.com/repos/${this.workingRepoFullName}/contents${path}?ref=${sha}`,
       method: 'GET',
     })
-    return b64DecodeUnicode(res.content)
+    return {
+      content: b64DecodeUnicode(res.content),
+      sha: res.sha,
+    }
   }
 }
 

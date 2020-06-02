@@ -16,13 +16,14 @@ limitations under the License.
 
 */
 
-import React, { useMemo } from 'react'
+import React, { useMemo, useState, useCallback, useEffect } from 'react'
 import logo from './logo.svg'
 import './App.css'
 import content from './home.json'
 import { useForm, usePlugins, useCMS } from 'tinacms'
 import { useEditMode } from './components/EditMode'
 import { useGithubEditing, useGithubToolbarPlugins } from 'react-tinacms-github'
+import { useGithubFile } from './util/useGithubFile'
 
 const App: React.FC = () => {
   const { enterEditMode, exitEditMode } = useGithubEditing()
@@ -30,12 +31,16 @@ const App: React.FC = () => {
   useGithubToolbarPlugins()
   const cms = useCMS()
 
+  const { loadData, commit } = useGithubFile({
+    path: 'src/home.json',
+    parse: JSON.parse,
+    serialize: JSON.stringify,
+  })
+
   const formConfig = {
     id: 'home-content',
     label: 'Content',
-    onSubmit: async () => {
-      alert('Saving...')
-    },
+    onSubmit: commit,
     fields: [
       {
         name: 'title',
@@ -66,18 +71,7 @@ const App: React.FC = () => {
         ],
       },
     ],
-    loadInitialValues: async () => {
-      if (!editMode) {
-        return content
-      }
-      let apiValues = {}
-      const res = await cms.api.github.getFile('/src/home.json')
-      apiValues = JSON.parse(res)
-      return {
-        ...content,
-        ...apiValues,
-      }
-    },
+    loadInitialValues: editMode ? loadData : async () => content,
   }
 
   const [tinaContent, form] = useForm(formConfig)
