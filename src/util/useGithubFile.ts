@@ -1,4 +1,3 @@
-import { useState, useEffect, useRef, useCallback } from 'react'
 import { useCMS } from 'tinacms'
 import { FORM_ERROR } from 'final-form'
 
