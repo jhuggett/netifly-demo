@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 import { useEditMode } from '../components/EditMode'
 import { useGithubFile } from '../util/useGithubFile'
 import { useForm, usePlugins } from 'tinacms'
-import content from '../home.json'
+import content from '../content/home.json'
 import logo from '../logo.svg'
 
 export const Home = () => {

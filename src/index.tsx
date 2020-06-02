@@ -25,11 +25,9 @@ import { TinaProvider, TinaCMS } from 'tinacms'
 import { EditModeProvider, useEditMode } from './components/EditMode'
 import { TinacmsGithubProvider } from 'react-tinacms-github'
 import { GithubClient } from './util/GithubClient'
+import { HashRouter as Router } from 'react-router-dom'
 
 const CMSWrapper = ({ children }: { children: any }) => {
-
-  
-
   const [editMode, setEditMode] = useEditMode()
   const enterEditMode = useCallback(() => {
     setEditMode(true)
@@ -43,8 +41,8 @@ const CMSWrapper = ({ children }: { children: any }) => {
         github: new GithubClient({
           proxy: '/api/proxy-github',
           authCallbackRoute: '/api/create-github-access-token',
-          clientId: process.env.REACT_APP_APP_CLIENT_ID ?? "",
-          baseRepoFullName: process.env.REACT_APP_REPO_FULL_NAME ?? "", // e.g: tinacms/tinacms.org,
+          clientId: process.env.REACT_APP_APP_CLIENT_ID ?? '',
+          baseRepoFullName: process.env.REACT_APP_REPO_FULL_NAME ?? '', // e.g: tinacms/tinacms.org,
           authScope: 'repo',
         }),
       },
@@ -73,7 +71,9 @@ const CMSWrapper = ({ children }: { children: any }) => {
 ReactDOM.render(
   <EditModeProvider value={false}>
     <CMSWrapper>
-      <App />
+      <Router>
+        <App />
+      </Router>
     </CMSWrapper>
   </EditModeProvider>,
   document.getElementById('root')

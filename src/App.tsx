@@ -21,8 +21,9 @@ import React from 'react'
 import './App.css'
 import { useEditMode } from './components/EditMode'
 import { useGithubEditing, useGithubToolbarPlugins } from 'react-tinacms-github'
-
+import { Switch, Route } from 'react-router-dom'
 import { Home } from './pages/Home'
+import { Page } from './pages/Page'
 
 const App: React.FC = () => {
   useGithubToolbarPlugins()
@@ -32,7 +33,13 @@ const App: React.FC = () => {
   return (
     <div className="App">
       <header className="App-header">
-        <Home />
+        <Switch>
+          <Route path="/:slug" component={Page} />
+          <Route path="/">
+            <Home />
+          </Route>
+        </Switch>
+
         <button
           type="button"
           style={{
