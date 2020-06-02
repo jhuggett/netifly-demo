@@ -27,9 +27,14 @@ export const useGithubFile = ({
 
   return {
     loadData: async () => {
-      const res = await cms.api.github.getFile(path)
-      setSha(path, res.sha)
-      return parse ? parse(res.content) : res.content
+      try {
+        const res = await cms.api.github.getFile(path)
+        setSha(path, res.sha)
+        return parse ? parse(res.content) : res.content
+      } catch (e) {
+        // TODO handle this better. maybe error boundary?
+        return {}
+      }
     },
     commit: async (data: any, message = 'Update from TinaCMS') => {
       const serializedContent = serialize ? serialize(data) : data
