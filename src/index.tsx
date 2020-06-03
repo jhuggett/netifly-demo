@@ -26,6 +26,7 @@ import { EditModeProvider, useEditMode } from './components/EditMode'
 import { TinacmsGithubProvider } from 'react-tinacms-github'
 import { GithubClient } from './util/GithubClient'
 import { HashRouter as Router } from 'react-router-dom'
+import { PageCreatorPlugin } from './util/PageCreatorPlugin'
 
 const CMSWrapper = ({ children }: { children: any }) => {
   const [editMode, setEditMode] = useEditMode()
@@ -53,6 +54,7 @@ const CMSWrapper = ({ children }: { children: any }) => {
       toolbar: {
         hidden: !editMode,
       },
+      plugins: [PageCreatorPlugin],
     })
   }, [editMode])
   return (

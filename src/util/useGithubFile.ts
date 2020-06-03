@@ -1,4 +1,4 @@
-import { useCMS } from 'tinacms'
+import { useCMS, CMS } from 'tinacms'
 import { FORM_ERROR } from 'final-form'
 
 type parseFn = (content: string) => any
@@ -24,7 +24,20 @@ export const useGithubFile = ({
   serialize: serializeFn | null
 }) => {
   const cms = useCMS()
+  return getFileManipulators({ path, parse, serialize, cms })
+}
 
+export const getFileManipulators = ({
+  path,
+  parse = null,
+  serialize = null,
+  cms,
+}: {
+  path: string
+  parse: parseFn | null
+  serialize: serializeFn | null
+  cms: CMS
+}) => {
   return {
     loadData: async () => {
       try {
