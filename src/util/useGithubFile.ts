@@ -46,7 +46,7 @@ export const getFileManipulators = ({
         return parse ? parse(res.content) : res.content
       } catch (e) {
         // TODO handle this better. maybe error boundary?
-        return {}
+        return { error: e }
       }
     },
     commit: async (data: any, message = 'Update from TinaCMS') => {

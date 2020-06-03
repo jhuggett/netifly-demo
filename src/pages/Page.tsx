@@ -38,15 +38,24 @@ export const Page = (props: any) => {
   usePlugins(form)
 
   useEffect(() => {
-    import(`../content/${slug}.json`)
-      .then((content) => {
-        setContent(content.default)
-        setHasError(false)
+    setHasError(false)
+    if (!editMode) {
+      import(`../content/${slug}.json`)
+        .then((content) => {
+          setContent(content.default)
+        })
+        .catch((e) => {
+          setHasError(true)
+        })
+    } else {
+      // TODO now we're loading this data 2x when in edit mode
+      loadData().then((result) => {
+        if (result && result.error) {
+          setHasError(true)
+        }
       })
-      .catch((e) => {
-        setHasError(true)
-      })
-  }, [slug, setContent, setHasError])
+    }
+  }, [slug, setContent, setHasError, editMode])
 
   const layoutContent = useMemo(() => {
     if (editMode && formContent) {
