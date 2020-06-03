@@ -3,6 +3,7 @@ import { NotFound } from './NotFound'
 import { useGithubFile } from '../util/useGithubFile'
 import { useForm, usePlugins } from 'tinacms'
 import { useEditMode } from '../components/EditMode'
+import { HeaderImage } from '../components/HeaderImage'
 
 export const Page = (props: any) => {
   const { slug } = props.match.params
@@ -71,6 +72,7 @@ export const Page = (props: any) => {
 
   return (
     <>
+      {layoutContent.image && <HeaderImage image={layoutContent.image} />}
       <h1>{layoutContent.title}</h1>
       <div>{layoutContent.content}</div>
     </>
