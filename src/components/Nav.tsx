@@ -1,9 +1,33 @@
-import React from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { NavLink } from 'react-router-dom'
-import navItems from '../navigation.json'
+import navigation from '../navigation.json'
 import './Nav.css'
+import { useEditMode } from './EditMode'
+import { useGithubFile } from '../util/useGithubFile'
 
 export const Nav = () => {
+  const [editMode] = useEditMode()
+  const { loadData } = useGithubFile({
+    path: 'src/navigation.json',
+    parse: JSON.parse,
+    serialize: JSON.stringify,
+  })
+
+  const initialNavigation = [...navigation]
+  const [githubNavItems, setGithubNavItems] = useState(initialNavigation)
+
+  useEffect(() => {
+    if (!editMode) return
+    loadData().then(setGithubNavItems)
+  }, [editMode])
+
+  const navItems = useMemo(() => {
+    if (editMode) {
+      return githubNavItems
+    }
+    return navigation
+  }, [editMode, navigation, githubNavItems])
+
   return (
     <div className="nav-wrapper">
       <div className="nav-wrapper-inner">
