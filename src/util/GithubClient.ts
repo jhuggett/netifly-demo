@@ -22,7 +22,6 @@ export class GithubClient extends OldGithubClient {
   }
 
   async getFile(path: string) {
-    const encodedPath = encodeURIComponent(path)
     const currentBranch = await this.getBranch()
     let sha = currentBranch.object.sha
     const res = await this._req({
@@ -33,6 +32,16 @@ export class GithubClient extends OldGithubClient {
       content: b64DecodeUnicode(res.content),
       sha: res.sha,
     }
+  }
+
+  async getMediaUri(path: string) {
+    const currentBranch = await this.getBranch()
+    let sha = currentBranch.object.sha
+    const res = await this._req({
+      url: `https://api.github.com/repos/${this.workingRepoFullName}/contents${path}?ref=${sha}`,
+      method: 'GET',
+    })
+    return res.download_url
   }
 }
 
