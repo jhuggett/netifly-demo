@@ -16,7 +16,7 @@ export const Home = () => {
   const formConfig = {
     id: 'home-content',
     label: 'Content',
-    onSubmit: (values: any) => commit(values),
+    onSubmit: async (values: any) => commit(values),
     fields: [
       {
         name: 'title',
