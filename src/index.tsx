@@ -23,10 +23,18 @@ import App from './App'
 import * as serviceWorker from './serviceWorker'
 import { TinaProvider, TinaCMS } from 'tinacms'
 import { EditModeProvider, useEditMode } from './components/EditMode'
-import { TinacmsGithubProvider } from 'react-tinacms-github'
+import { TinacmsGithubProvider, GithubMediaStore } from 'react-tinacms-github'
 import { GithubClient } from './util/GithubClient'
 import { HashRouter as Router } from 'react-router-dom'
 import { PageCreatorPlugin } from './util/PageCreatorPlugin'
+
+const ghClient = new GithubClient({
+  proxy: '/api/proxy-github',
+  authCallbackRoute: '/api/create-github-access-token',
+  clientId: process.env.REACT_APP_APP_CLIENT_ID ?? '',
+  baseRepoFullName: process.env.REACT_APP_REPO_FULL_NAME ?? '', // e.g: tinacms/tinacms.org,
+  authScope: 'repo',
+})
 
 const CMSWrapper = ({ children }: { children: any }) => {
   const [editMode, setEditMode] = useEditMode()
@@ -39,13 +47,10 @@ const CMSWrapper = ({ children }: { children: any }) => {
   const cms = useMemo(() => {
     return new TinaCMS({
       apis: {
-        github: new GithubClient({
-          proxy: '/api/proxy-github',
-          authCallbackRoute: '/api/create-github-access-token',
-          clientId: process.env.REACT_APP_APP_CLIENT_ID ?? '',
-          baseRepoFullName: process.env.REACT_APP_REPO_FULL_NAME ?? '', // e.g: tinacms/tinacms.org,
-          authScope: 'repo',
-        }),
+        github: ghClient,
+      },
+      media: {
+        store: new GithubMediaStore(ghClient),
       },
       sidebar: {
         hidden: !editMode,
