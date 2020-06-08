@@ -13,8 +13,7 @@ export const Nav = () => {
     serialize: JSON.stringify,
   })
 
-  const initialNavigation = [...navigation]
-  const [githubNavItems, setGithubNavItems] = useState(initialNavigation)
+  const [githubNavItems, setGithubNavItems] = useState(navigation)
 
   useEffect(() => {
     if (!editMode) return
