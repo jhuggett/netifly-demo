@@ -39,14 +39,14 @@ export const Page = (props: any) => {
         async previewSrc(formValues: any) {
           try {
             return await cms.api.github.getMediaUri(
-              `src/content/img/${formValues.image}`
+              `/src/content/img/${formValues.image}`
             )
           } catch (e) {
             cms.alerts.error(e.message)
           }
         },
         uploadDir(formValues: any) {
-          return '/src/content/img'
+          return '/src/content/img/'
         },
       },
       {
