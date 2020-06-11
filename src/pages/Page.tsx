@@ -1,10 +1,12 @@
 import React, { useEffect, useState, useMemo } from 'react'
 import { NotFound } from './NotFound'
 import { useGithubFile } from '../util/useGithubFile'
-import { useForm, usePlugins } from 'tinacms'
+import { useForm, usePlugins, useCMS } from 'tinacms'
 import { useEditMode } from '../components/EditMode'
+import { HeaderImage } from '../components/HeaderImage'
 
 export const Page = (props: any) => {
+  const cms = useCMS()
   const { slug } = props.match.params
   const [content, setContent] = useState({}) as any
   const [hasError, setHasError] = useState(false)
@@ -26,6 +28,28 @@ export const Page = (props: any) => {
         name: 'title',
         label: 'Title',
         component: 'text',
+      },
+      {
+        name: 'image',
+        label: 'Image',
+        component: 'image',
+        parse(filename: string) {
+          return filename
+        },
+        async previewSrc(formValues: any) {
+          if (!formValues.image) return ''
+          try {
+            return await cms.api.github.getMediaUri(
+              `/src/content/img/${formValues.image}`
+            )
+          } catch (e) {
+            cms.alerts.error(e.message)
+            return ''
+          }
+        },
+        uploadDir(formValues: any) {
+          return '/src/content/img/'
+        },
       },
       {
         name: 'content',
@@ -71,6 +95,7 @@ export const Page = (props: any) => {
 
   return (
     <>
+      {layoutContent.image && <HeaderImage image={layoutContent.image} />}
       <h1>{layoutContent.title}</h1>
       <div>{layoutContent.content}</div>
     </>
