@@ -37,12 +37,14 @@ export const Page = (props: any) => {
           return filename
         },
         async previewSrc(formValues: any) {
+          if (!formValues.image) return ''
           try {
             return await cms.api.github.getMediaUri(
               `/src/content/img/${formValues.image}`
             )
           } catch (e) {
             cms.alerts.error(e.message)
+            return ''
           }
         },
         uploadDir(formValues: any) {

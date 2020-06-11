@@ -38,15 +38,11 @@ export class GithubClient extends OldGithubClient {
     const currentBranch = await this.getBranch()
     let sha = currentBranch.object.sha
     let res
-    try {
-      res = await this._req({
-        url: `https://api.github.com/repos/${this.workingRepoFullName}/contents${path}?ref=${sha}`,
-        method: 'GET',
-      })
-    } catch (e) {
-      console.error(e.message)
-      return ''
-    }
+    res = await this._req({
+      url: `https://api.github.com/repos/${this.workingRepoFullName}/contents${path}?ref=${sha}`,
+      method: 'GET',
+    })
+
     return res.download_url
   }
 
@@ -56,7 +52,6 @@ export class GithubClient extends OldGithubClient {
     commitMessage: string = 'Update from TinaCMS',
     encoded: boolean = false
   ) {
-    console.warn({ path })
     const repo = this.workingRepoFullName
     const branch = this.branchName
     const currentBranch = await this.getBranch()
