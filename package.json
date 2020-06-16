@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@now/node": "^1.6.1",
+    "@tinacms/browser-storage-client": "^1.0.7",
     "@types/react-router-dom": "^5.1.5",
     "cookie": "^0.4.1",
     "dotenv": "^8.2.0",
