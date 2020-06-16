@@ -4,6 +4,7 @@ import { useGithubFile } from '../util/useGithubFile'
 import { useForm, usePlugins, useCMS } from 'tinacms'
 import { useEditMode } from '../components/EditMode'
 import { HeaderImage } from '../components/HeaderImage'
+import { useFormBrowserCache } from '@tinacms/browser-storage-client'
 
 export const Page = (props: any) => {
   const cms = useCMS()
@@ -66,6 +67,8 @@ export const Page = (props: any) => {
       },
     ],
   })
+
+  useFormBrowserCache(form, editMode)
 
   usePlugins(form)
 

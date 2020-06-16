@@ -27,6 +27,7 @@ import { TinacmsGithubProvider, GithubMediaStore } from 'react-tinacms-github'
 import { GithubClient } from './util/GithubClient'
 import { HashRouter as Router } from 'react-router-dom'
 import { PageCreatorPlugin } from './util/PageCreatorPlugin'
+import { BrowserStorageClient } from '@tinacms/browser-storage-client'
 
 const ghClient = new GithubClient({
   proxy: '/api/proxy-github',
@@ -48,6 +49,7 @@ const CMSWrapper = ({ children }: { children: any }) => {
     return new TinaCMS({
       apis: {
         github: ghClient,
+        storage: new BrowserStorageClient(window.localStorage, 'tina-demo-cra'),
       },
       media: {
         store: new GithubMediaStore(ghClient),
