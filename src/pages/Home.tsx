@@ -1,11 +1,12 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useEffect, useState } from 'react'
 import { useEditMode } from '../components/EditMode'
 import { useGithubFile } from '../util/useGithubFile'
-import { useForm, usePlugins } from 'tinacms'
+import { useForm, usePlugins, useCMS } from 'tinacms'
 import content from '../content/home.json'
 import logo from '../logo.svg'
 
 export const Home = () => {
+  const cms = useCMS()
   const [editMode] = useEditMode()
   const { loadData, commit } = useGithubFile({
     path: 'src/content/home.json',
@@ -13,8 +14,16 @@ export const Home = () => {
     serialize: JSON.stringify,
   })
 
+  const [branch, setBranch] = useState(cms.api.github.branchName)
+
+  useEffect(() => {
+    cms.events.subscribe('github:branch:checkout', ({ branchName }) => {
+      setBranch(branchName)
+    })
+  }, [cms, setBranch])
+
   const formConfig = {
-    id: 'home-content',
+    id: `${branch}__home-content`,
     label: 'Content',
     onSubmit: async (values: any) => commit(values),
     fields: [
