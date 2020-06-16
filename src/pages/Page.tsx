@@ -18,8 +18,16 @@ export const Page = (props: any) => {
     serialize: JSON.stringify,
   })
 
+  const [branch, setBranch] = useState(cms.api.github.branchName)
+
+  useEffect(() => {
+    cms.events.subscribe('github:branch:checkout', ({ branchName }) => {
+      setBranch(branchName)
+    })
+  }, [cms, setBranch])
+
   const [formContent, form] = useForm({
-    id: slug,
+    id: `${branch}__${slug}`,
     label: 'Edit Page',
     loadInitialValues: editMode ? loadData : async () => content,
     onSubmit: async (values: any) => commit(values),
