@@ -7,7 +7,10 @@ export class GithubClient extends OldGithubClient {
   }
 
   private _proxyRequest(data: any) {
+    const headers = new Headers()
+    headers.append('Authorization', `Bearer ${localStorage.getItem('token')}`)
     return fetch(this.proxy, {
+      headers,
       method: 'POST',
       body: JSON.stringify(data),
     })
