@@ -30,7 +30,7 @@
     "eject": "react-scripts eject",
     "dev": "react-scripts start",
     "export": "npm run build && next export",
-    "build": "next build",
+    "build": "next build"
   },
   "eslintConfig": {
     "extends": "react-app"
