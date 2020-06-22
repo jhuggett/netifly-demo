@@ -31,7 +31,7 @@ import { BrowserStorageClient } from '@tinacms/browser-storage-client'
 
 const ghClient = new GithubClient({
   proxy: '/api/proxy-github',
-  authCallbackRoute: '/api/create-github-access-token',
+  authCallbackRoute: '/.netlify/functions/create-github-access-token',
   clientId: process.env.REACT_APP_APP_CLIENT_ID ?? '',
   baseRepoFullName: process.env.REACT_APP_REPO_FULL_NAME ?? '', // e.g: tinacms/tinacms.org,
   authScope: 'repo',
