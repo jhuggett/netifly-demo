@@ -1,9 +1,12 @@
 const CSRF_TOKEN_KEY = ""
-import { v4 as uuidv4 } from 'uuid'
-import { AES } from 'crypto-js'
-import qs from 'qs'
-import axios from 'axios'
-import { serialize } from 'cookie'
+
+
+
+const qs = require('qs')
+const v4 = require('uuid').uuidv4
+const axios = require('axios')
+const serialize = require('cookie').serialize
+const AES = require('crypto-js').AES
 
 
 
