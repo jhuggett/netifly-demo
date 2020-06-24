@@ -11,6 +11,8 @@ const AES = require('crypto-js').AES
 
 
 exports.handler = (clientId, secret, signingKey) => async (event, context, callback) => {
+    console.log("CALLED");
+    
     const tokenResp = await createAccessToken(clientId, secret, event.queryStringParameters.code, event.queryStringParameters.state)
     const { access_token, error } = qs.parse(tokenResp.data)
     if (error) {
