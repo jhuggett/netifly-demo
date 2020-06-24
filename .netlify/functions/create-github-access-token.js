@@ -10,37 +10,33 @@ const AES = require('crypto-js').AES
 
 
 
-exports.handler = (clientId, secret, signingKey) => (event, context, callback) => {
-
-
-    createAccessToken(clientId, secret, event.queryStringParameters.code, event.queryStringParameters.state).then(
-        (tokenResp) => {
-            const { access_token, error } = qs.parse(tokenResp.data)
-            if (error) {
-                callback(error)
-            } else {
-                // Generate the csrf token
-                const csrfToken = uuidv4()
+exports.handler = (clientId, secret, signingKey) => async (event, context, callback) => {
+    const tokenResp = await createAccessToken(clientId, secret, event.queryStringParameters.code, event.queryStringParameters.state)
+    const { access_token, error } = qs.parse(tokenResp.data)
+    if (error) {
+        callback(error)
+    } else {
+        // Generate the csrf token
+        const csrfToken = uuidv4()
         
-                // Sign the amalgamated token
-                const unsignedToken = `${csrfToken}.${access_token}`
-                const signedToken = AES.encrypt(unsignedToken, signingKey).toString()
-        
-                // Set the csrf token as an httpOnly cookie
-                // res.setHeader(
-                // 'Set-Cookie',
-                // serialize(CSRF_TOKEN_KEY, csrfToken, {
-                //     path: '/',
-                //     httpOnly: true,
-                // })
-                // )
+        // Sign the amalgamated token
+        const unsignedToken = `${csrfToken}.${access_token}`
+        const signedToken = AES.encrypt(unsignedToken, signingKey).toString()
+
+        // Set the csrf token as an httpOnly cookie
+        // res.setHeader(
+        // 'Set-Cookie',
+        // serialize(CSRF_TOKEN_KEY, csrfToken, {
+        //     path: '/',
+        //     httpOnly: true,
+        // })
+        // )
 
 
-                // Return the amalgamated token
-                callback(null, 200, JSON.stringify({ signingToken: signedToken }))
-            }
-        }
-    )
+        // Return the amalgamated token
+        callback(null, 200, JSON.stringify({ signingToken: signedToken }))
+
+    }
 }
 
 
