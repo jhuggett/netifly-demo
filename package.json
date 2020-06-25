@@ -27,6 +27,7 @@
     "react-dom": ">=16.8"
   },
   "scripts": {
+    "prod": "yarn run build; yarn run build:lambda",
     "start": "react-scripts start",
     "build": "CI=false && yarn install && react-scripts build",
     "eject": "react-scripts eject",
