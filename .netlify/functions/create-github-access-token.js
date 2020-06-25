@@ -36,7 +36,7 @@ exports.handler = (clientId, secret, signingKey) => async (event, context, callb
 
 
         // Return the amalgamated token
-        callback(null, 200, JSON.stringify({ signingToken: signedToken }))
+        callback(null, 200, "Hello word!")
 
     }
 }
