@@ -9,8 +9,7 @@ const serialize = require('cookie').serialize
 const AES = require('crypto-js').AES
 
 
-
-exports.handler = (clientId, secret, signingKey) => async (event, context, callback) => {
+const route = (clientId, secret, signingKey) => async (event, context, callback) => {
     console.log("CALLED");
     
     const tokenResp = await createAccessToken(clientId, secret, event.queryStringParameters.code, event.queryStringParameters.state)
@@ -36,7 +35,10 @@ exports.handler = (clientId, secret, signingKey) => async (event, context, callb
 
 
         // Return the amalgamated token
-        callback(null, 200, "Hello word!")
+        callback(null, {
+            statusCode: 200,
+            body: "HELLO WORLD"
+        })
 
     }
 }
@@ -58,3 +60,9 @@ return axios.post(
     })
     )
 }
+
+exports.handler = route(
+    process.env.REACT_APP_APP_CLIENT_ID || '',
+    process.env.APP_CLIENT_SECRET || '',
+    process.env.SIGNING_KEY || ''
+)
